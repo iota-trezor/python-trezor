@@ -745,6 +745,11 @@ def cosi_sign(connect, address, data, global_commitment, global_pubkey):
     address_n = client.expand_path(address)
     return client.cosi_sign(address_n, binascii.unhexlify(data), binascii.unhexlify(global_commitment), binascii.unhexlify(global_pubkey))
 
+@cli.command(help='Get IOTA public address.')
+@click.pass_obj
+def iota_get_address(connect):
+    client = connect()
+    return client.iota_get_address()
 
 #
 # Main
