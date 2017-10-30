@@ -752,6 +752,12 @@ def iota_get_address(connect, index):
     client = connect()
     return client.iota_get_address(index)
 
+@cli.command(help='Show IOTA seed.')
+@click.pass_obj
+def iota_show_seed(connect):
+    client = connect()
+    return client.iota_show_seed()
+
 #
 # Main
 #

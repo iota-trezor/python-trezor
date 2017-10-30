@@ -596,6 +596,10 @@ class ProtocolMixin(object):
     def iota_get_address(self, index):
         return self.call(proto.IotaGetAddress(seed_index=index))
 
+    @expect(proto.Success)
+    def iota_show_seed(self):
+        return self.call(proto.IotaShowSeed())
+
     @field('entropy')
     @expect(proto.Entropy)
     def get_entropy(self, size):
