@@ -758,6 +758,15 @@ def iota_show_seed(connect):
     client = connect()
     return client.iota_show_seed()
 
+@cli.command(help='Sign IOTA transaction.')
+@click.option('-a', '--address', required=True)
+@click.option('-b', '--balance', type=int, required=True)
+@click.option('-v', '--value', type=int, required=True)
+@click.pass_obj
+def iota_sign_transaction(connect, address, balance, value):
+    client = connect()
+    return client.iota_sign_transaction(address, balance, value)
+
 #
 # Main
 #

@@ -35,6 +35,8 @@ from . import tools
 from . import messages_pb2 as proto
 from . import types_pb2 as types
 from .debuglink import DebugLink
+from calendar import timegm as unix_timestamp
+from datetime import datetime
 
 # Python2 vs Python3
 try:
@@ -599,6 +601,15 @@ class ProtocolMixin(object):
     @expect(proto.Success)
     def iota_show_seed(self):
         return self.call(proto.IotaShowSeed())
+
+    @expect(proto.IotaSignedTx)
+    def iota_sign_transaction(self, address, balance, value):
+        #print(unix_timestamp(datetime.utcnow().timetuple()))
+        msg = proto.IotaTxRequest(receiving_address=address,
+                                  balance=balance,
+                                  transfer_amount=value)
+        print(msg)
+        return self.call(msg)
 
     @field('entropy')
     @expect(proto.Entropy)
