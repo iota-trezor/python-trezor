@@ -604,10 +604,11 @@ class ProtocolMixin(object):
 
     @expect(proto.IotaSignedTx)
     def iota_sign_transaction(self, address, balance, value):
-        #print(unix_timestamp(datetime.utcnow().timetuple()))
+        now = unix_timestamp(datetime.utcnow().timetuple())
         msg = proto.IotaTxRequest(receiving_address=address,
                                   balance=balance,
-                                  transfer_amount=value)
+                                  transfer_amount=value,
+                                  timestamp=now)
         print(msg)
         return self.call(msg)
 
