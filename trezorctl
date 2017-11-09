@@ -745,6 +745,19 @@ def cosi_sign(connect, address, data, global_commitment, global_pubkey):
     address_n = client.expand_path(address)
     return client.cosi_sign(address_n, binascii.unhexlify(data), binascii.unhexlify(global_commitment), binascii.unhexlify(global_pubkey))
 
+@cli.command(help='Get IOTA address counter.')
+@click.pass_obj
+def iota_get_address_counter(connect):
+    client = connect()
+    return client.iota_get_address_counter()
+
+@cli.command(help='Set IOTA address counter.')
+@click.option('-c', '--counter', type=int)
+@click.pass_obj
+def iota_set_address_counter(connect, counter):
+    client = connect()
+    return client.iota_set_address_counter(counter)
+
 @cli.command(help='Get IOTA public address.')
 @click.option('-i', '--index', type=int)
 @click.pass_obj
@@ -765,7 +778,8 @@ def iota_show_seed(connect):
 @click.pass_obj
 def iota_sign_transaction(connect, address, balance, value):
     client = connect()
-    return client.iota_sign_transaction(address, balance, value)
+    client.iota_transaction_request(address, balance, value)
+    return client.iota_transaction_details()
 
 #
 # Main

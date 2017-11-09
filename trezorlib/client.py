@@ -593,22 +593,37 @@ class ProtocolMixin(object):
             return True
         return False
 
+    @expect(proto.IotaAddressCounter)
+    def iota_get_address_counter(self):
+        return self.call(proto.IotaGetAddressCounter())
+
+    @expect(proto.Success)
+    def iota_set_address_counter(self, counter):
+        return self.call(proto.IotaSetAddressCounter(address_counter=counter))
+
     @field('address')
     @expect(proto.IotaAddress)
     def iota_get_address(self, index):
-        return self.call(proto.IotaGetAddress(seed_index=index))
+        return self.call(proto.IotaGetAddress(address_counter=index))
 
     @expect(proto.Success)
     def iota_show_seed(self):
         return self.call(proto.IotaShowSeed())
 
-    @expect(proto.IotaSignedTx)
-    def iota_sign_transaction(self, address, balance, value):
+    @expect(proto.IotaTxApproved)
+    def iota_transaction_request(self, address, balance, value):
         now = unix_timestamp(datetime.utcnow().timetuple())
         msg = proto.IotaTxRequest(receiving_address=address,
                                   balance=balance,
                                   transfer_amount=value,
-                                  timestamp=now)
+                                     request_timestamp=now)
+        print(msg)
+        return self.call(msg)
+
+    @expect(proto.IotaSignedTx)
+    def iota_transaction_details(self):
+        now = unix_timestamp(datetime.utcnow().timetuple())
+        msg = proto.IotaTxDetails(transaction_timestamp=now)
         print(msg)
         return self.call(msg)
 
