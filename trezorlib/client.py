@@ -601,10 +601,9 @@ class ProtocolMixin(object):
     def iota_set_address_counter(self, counter):
         return self.call(proto.IotaSetAddressCounter(address_counter=counter))
 
-    @field('address')
     @expect(proto.IotaAddress)
     def iota_get_address(self, index):
-        return self.call(proto.IotaGetAddress(address_counter=index))
+        return self.call(proto.IotaGetAddress(address_index=index))
 
     @expect(proto.Success)
     def iota_show_seed(self):
