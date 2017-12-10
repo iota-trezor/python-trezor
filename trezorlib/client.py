@@ -609,20 +609,13 @@ class ProtocolMixin(object):
     def iota_show_seed(self):
         return self.call(proto.IotaShowSeed())
 
-    @expect(proto.IotaTxApproved)
+    @expect(proto.IotaSignedTx)
     def iota_transaction_request(self, address, balance, value):
-        now = unix_timestamp(datetime.utcnow().timetuple())
+        two_minutes_from_now = unix_timestamp(datetime.utcnow().timetuple()) + 120
         msg = proto.IotaTxRequest(receiving_address=address,
                                   balance=balance,
                                   transfer_amount=value,
-                                     request_timestamp=now)
-        print(msg)
-        return self.call(msg)
-
-    @expect(proto.IotaSignedTx)
-    def iota_transaction_details(self):
-        now = unix_timestamp(datetime.utcnow().timetuple())
-        msg = proto.IotaTxDetails(transaction_timestamp=now)
+                                  timestamp=two_minutes_from_now)
         print(msg)
         return self.call(msg)
 

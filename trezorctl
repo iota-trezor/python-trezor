@@ -752,7 +752,7 @@ def iota_get_address_counter(connect):
     return client.iota_get_address_counter()
 
 @cli.command(help='Set IOTA address counter.')
-@click.option('-c', '--counter', type=int)
+@click.option('-c', '--counter', type=int, help="Set IOTA address counter to this number")
 @click.pass_obj
 def iota_set_address_counter(connect, counter):
     client = connect()
@@ -765,12 +765,6 @@ def iota_get_address(connect, index):
     client = connect()
     return client.iota_get_address(index)
 
-@cli.command(help='Show IOTA seed.')
-@click.pass_obj
-def iota_show_seed(connect):
-    client = connect()
-    return client.iota_show_seed()
-
 @cli.command(help='Sign IOTA transaction.')
 @click.option('-a', '--address', required=True)
 @click.option('-b', '--balance', type=int, required=True)
@@ -778,8 +772,7 @@ def iota_show_seed(connect):
 @click.pass_obj
 def iota_sign_transaction(connect, address, balance, value):
     client = connect()
-    client.iota_transaction_request(address, balance, value)
-    return client.iota_transaction_details()
+    return client.iota_transaction_request(address, balance, value)
 
 #
 # Main
